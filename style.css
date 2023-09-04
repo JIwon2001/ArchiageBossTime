@@ -1,0 +1,69 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #dfd2d2;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="number"] {
+  width: 95%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 40px;
+}
+
+button {
+  background-color: #5f5b61;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  opacity: 0.8;
+  border-radius: 20px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+p {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+/* 원 스타일 */
+.boss-circle {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.boss-circle.red {
+  background-color: red;
+}
+
+.boss-circle.blue {
+  background-color: blue;
+}
+
+.boss-circle.yellow {
+  background-color: yellow;
+}
