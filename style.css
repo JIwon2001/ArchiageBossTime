@@ -64,6 +64,16 @@ p#result p{
   margin-right: 5px;
 }
 
+#dateInput {
+  width: 95%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 40px;
+  /* 원하는 스타일을 여기에 추가하세요 */
+}
+
+
+
 .boss-circle.red {
   background-color: red;
 }
