@@ -6,11 +6,19 @@ window.onload = function () {
   getResultsFromLocalStorage();
 };
 
+document.getElementById("dateInput").addEventListener("change", function () {
+  const inputValue = this.value; // 입력한 값 가져오기
+  const dateValue = inputValue.split("T")[0]; // 날짜 부분만 가져오기
+  this.value = dateValue; // 날짜 부분만 다시 설정하기
+});
+
+
 function calculateTime() {
   const bossName = document.getElementById("bossNameInput").value;
   const hourInput = parseInt(document.getElementById("hourInput").value);
   const timeInput = document.getElementById("timeInput").value;
-  const cutTime = document.getElementById("timeInput").value;
+  const cutTime = document.getElementById("timeInput").value; // 이 부분 추가
+  const dateInput = document.getElementById("dateInput").value;
 
   if (bossName.trim() === "") {
     alert("보스의 이름을 입력하세요.");
@@ -33,7 +41,12 @@ function calculateTime() {
     굴라: 15,
   };
 
+  let parsedDate = parseDateInput(dateInput);
   let parsedTime = parseTimeInput(timeInput);
+
+  if (parsedDate) {
+    parsedTime.setDate(parsedDate.getDate());
+  }
 
   if (!parsedTime) {
     alert("올바른 시간 형식을 입력하세요 (예: '1400' 또는 '1523').");
@@ -53,9 +66,13 @@ function calculateTime() {
 
   const hours = parsedTime.getHours();
   const minutes = parsedTime.getMinutes();
-  const resultTime = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
+  const resultTime = `${hours.toString().padStart(2, "0")}:${minutes
+    .toString()
+    .padStart(2, "0")}`;
 
-  const existingResultIndex = results.findIndex((result) => result.bossName === bossName);
+  const existingResultIndex = results.findIndex(
+    (result) => result.bossName === bossName
+  );
   if (existingResultIndex !== -1) {
     results[existingResultIndex].resultTime = resultTime;
     results[existingResultIndex].timestamp = parsedTime.getTime();
@@ -76,6 +93,13 @@ function calculateTime() {
 }
 
 
+function parseDateInput(dateInput) {
+  const parsedDate = new Date(dateInput);
+  if (!isNaN(parsedDate.getTime())) {
+    return parsedDate;
+  }
+  return null;
+}
 
 function handleKeyPress(event) {
   if (event.key === "Enter") {
@@ -115,7 +139,7 @@ function getBossColor(bossName) {
     벨루치: "red",
     가나비슈: "red",
     발룸: "red",
-    굴라:"red",
+    굴라: "red",
   };
 
   return bossColors[bossName] || "black"; // 기본은 검은색
@@ -132,11 +156,13 @@ function displayResults() {
       result.bossName
     )}">${result.bossName}</span>`;
     const date = new Date(result.timestamp);
-    const dateString = `${(date.getMonth() + 1).toString().padStart(2, "0")}-${date
-      .getDate()
+    const dateString = `${(date.getMonth() + 1)
       .toString()
-      .padStart(2, "0")}`;
-    const formattedCutTime = result.cutTime.replace(/^(\d{2})(\d{2})$/, "$1:$2"); // 이 부분이 수정되었습니다
+      .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
+    const formattedCutTime = result.cutTime.replace(
+      /^(\d{2})(\d{2})$/,
+      "$1:$2"
+    ); // 이 부분이 수정되었습니다
     const formattedResultTime = result.resultTime.replace("::", ":");
     p.innerHTML = `${bossNameWithColor} 컷: ${formattedCutTime}, 젠:${dateString} ${formattedResultTime}`;
 
@@ -158,8 +184,6 @@ function displayResults() {
     resultContainer.appendChild(p);
   });
 }
-
-
 
 function formatTime(time) {
   const hours = time.substring(0, 2);
